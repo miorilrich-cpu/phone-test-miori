@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Miori • Payment</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:Arial,Tahoma,sans-serif;
+    background:
+        radial-gradient(circle at 15% 20%,#ffffff 0 3px,transparent 4px),
+        radial-gradient(circle at 85% 30%,#ffd5e2 0 4px,transparent 5px),
+        radial-gradient(circle at 20% 80%,#ffe8a9 0 3px,transparent 4px),
+        linear-gradient(135deg,#fff7f8,#ffeaf0,#fff8ee);
+
+    color:#765866;
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+}
+
+.decor{
+    position:absolute;
+    font-size:24px;
+    opacity:.65;
+    animation:decorFloat 7s ease-in-out infinite;
+}
+
+.decor:nth-child(1){
+    top:12%;
+    left:8%;
+}
+
+.decor:nth-child(2){
+    top:18%;
+    right:8%;
+    animation-delay:-2s;
+}
+
+.decor:nth-child(3){
+    top:52%;
+    left:4%;
+    animation-delay:-4s;
+}
+
+.decor:nth-child(4){
+    bottom:15%;
+    right:7%;
+    animation-delay:-1s;
+}
+
+.decor:nth-child(5){
+    bottom:8%;
+    left:15%;
+    animation-delay:-3s;
+}
+
+@keyframes decorFloat{
+    0%,100%{
+        transform:translateY(0) rotate(-8deg);
+    }
+
+    50%{
+        transform:translateY(-18px) rotate(8deg);
+    }
+}
+
+
+/* =====================================================
+   STAGE
+===================================================== */
+
+.stage{
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px 15px;
+
+    position:relative;
+    z-index:2;
+}
+
+
+/* =====================================================
+   IPHONE 6 BODY
+===================================================== */
+
+.iphone{
+    width:335px;
+    height:675px;
+
+    position:relative;
+
+    border-radius:47px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #9c827a 0%,
+            #d6c0b9 2%,
+            #f7ebe6 6%,
+            #fffaf7 50%,
+            #e9d9d4 94%,
+            #b39a92 98%,
+            #927970 100%
+        );
+
+    padding:9px;
+
+    box-shadow:
+        0 45px 80px rgba(105,67,74,.25),
+        0 15px 30px rgba(105,67,74,.14),
+        inset 0 0 0 1px rgba(255,255,255,.9),
+        inset 0 0 12px rgba(120,80,70,.16);
+
+    transform-style:preserve-3d;
+
+    animation:
+        phoneTilt 9s ease-in-out infinite,
+        phoneFloat 7s ease-in-out infinite;
+}
+
+
+/* =====================================================
+   SLOW PHONE MOVEMENT
+===================================================== */
+
+@keyframes phoneTilt{
+
+    0%,
+    100%{
+        transform:
+            perspective(1000px)
+            rotateY(-2deg)
+            rotateZ(-2deg);
+    }
+
+    50%{
+        transform:
+            perspective(1000px)
+            rotateY(2deg)
+            rotateZ(2deg);
+    }
+}
+
+@keyframes phoneFloat{
+
+    0%,
+    100%{
+        margin-top:0;
+    }
+
+    50%{
+        margin-top:-10px;
+    }
+}
+
+
+/* =====================================================
+   SIDE BUTTONS
+===================================================== */
+
+.volume-button{
+    position:absolute;
+
+    left:-5px;
+    top:125px;
+
+    width:5px;
+    height:34px;
+
+    border-radius:5px 0 0 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #90766e,
+            #d2bcb5
+        );
+
+    box-shadow:
+        0 45px 0 #aa9089,
+        0 76px 0 #aa9089;
+}
+
+.mute-button{
+    position:absolute;
+
+    left:-5px;
+    top:105px;
+
+    width:5px;
+    height:13px;
+
+    border-radius:5px 0 0 5px;
+
+    background:#a48b84;
+}
+
+.power-button{
+    position:absolute;
+
+    right:-5px;
+    top:145px;
+
+    width:5px;
+    height:72px;
+
+    border-radius:0 5px 5px 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a58b84,
+            #d2bdb6
+        );
+}
+
+
+/* =====================================================
+   PHONE SCREEN FRAME
+===================================================== */
+
+.screen-frame{
+    width:100%;
+    height:100%;
+
+    background:#151515;
+
+    border-radius:40px;
+
+    padding:5px;
+
+    box-shadow:
+        inset 0 0 0 1px #080808,
+        inset 0 0 10px #000;
+}
+
+
+/* =====================================================
+   SCREEN
+===================================================== */
+
+.screen{
+    width:100%;
+    height:100%;
+
+    border-radius:35px;
+
+    overflow:hidden;
+
+    position:relative;
+
+    background:#fff8fa;
+}
+
+
+/* =====================================================
+   FRONT CAMERA / SPEAKER
+===================================================== */
+
+.hardware{
+    position:absolute;
+
+    top:9px;
+    left:50%;
+
+    width:120px;
+    height:30px;
+
+    transform:translateX(-50%);
+
+    z-index:100;
+
+    pointer-events:none;
+}
+
+.front-camera{
+    position:absolute;
+
+    left:22px;
+    top:7px;
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(circle at 35% 35%,#687184,#1f2430);
+
+    box-shadow:
+        0 0 0 2px #d2c4c0,
+        0 0 0 3px #69605f;
+}
+
+.sensor{
+    position:absolute;
+
+    right:25px;
+    top:8px;
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#817876;
+}
+
+.speaker{
+    position:absolute;
+
+    top:8px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:55px;
+    height:6px;
+
+    border-radius:8px;
+
+    background:
+        linear-gradient(
+            #3d3939,
+            #777070
+        );
+
+    box-shadow:
+        inset 0 1px 2px #111;
+}
+
+
+/* =====================================================
+   STATUS BAR
+===================================================== */
+
+.status{
+    height:30px;
+
+    padding:6px 14px 0;
+
+    display:flex;
+    justify-content:space-between;
+
+    font-size:9px;
+    font-weight:bold;
+
+    color:#51494d;
+
+    position:relative;
+    z-index:20;
+}
+
+.status-right{
+    display:flex;
+    gap:5px;
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app{
+    position:absolute;
+
+    top:30px;
+    left:0;
+    right:0;
+    bottom:0;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(circle at 8% 10%,#ffdbe5 0 2px,transparent 3px),
+        radial-gradient(circle at 91% 17%,#ffe4ad 0 3px,transparent 4px),
+        linear-gradient(#fffafd,#fff2f6);
+}
+
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page{
+    position:absolute;
+
+    inset:0;
+
+    padding:14px 15px 75px;
+
+    overflow-y:auto;
+
+    opacity:0;
+    pointer-events:none;
+
+    transform:translateX(25px);
+
+    transition:
+        opacity .35s ease,
+        transform .35s ease;
+
+    scrollbar-width:none;
+}
+
+.page::-webkit-scrollbar{
+    display:none;
+}
+
+.page.active{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateX(0);
+}
+
+
+/* =====================================================
+   SHOP HEADER
+===================================================== */
+
+.shop-header{
+    text-align:center;
+
+    margin:5px 0 14px;
+}
+
+.logo{
+    width:78px;
+    height:78px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:40px;
+
+    background:
+        radial-gradient(circle at 35% 25%,#fff,#ffe3eb);
+
+    border:3px solid white;
+
+    box-shadow:
+        0 7px 18px rgba(210,110,140,.16),
+        inset 0 0 0 2px #ffcbd8;
+
+    position:relative;
+}
+
+.note{
+    position:absolute;
+
+    top:-2px;
+    right:-2px;
+
+    width:27px;
+    height:27px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    color:white;
+
+    background:#ff9cbb;
+
+    font-size:14px;
+
+    box-shadow:0 4px 8px rgba(210,100,140,.2);
+}
+
+.shop-name{
+    margin:6px 0 0;
+
+    font-size:23px;
+
+    font-weight:800;
+
+    color:#df7296;
+}
+
+.shop-description{
+    margin:3px 0 0;
+
+    font-size:10px;
+
+    line-height:1.6;
+
+    color:#a27d88;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+    padding:17px;
+
+    text-align:center;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.96),
+            rgba(255,243,247,.95)
+        );
+
+    border:1px solid #ffd5df;
+
+    box-shadow:
+        0 8px 20px rgba(205,105,135,.08);
+}
+
+.hero-icon{
+    font-size:29px;
+}
+
+.hero h2{
+    margin:5px 0;
+
+    font-size:17px;
+
+    color:#d66f91;
+}
+
+.hero p{
+    margin:0;
+
+    font-size:10px;
+
+    line-height:1.7;
+
+    color:#9b7883;
+}
+
+
+/* =====================================================
+   MAIN BUTTON
+===================================================== */
+
+.main-button{
+    width:100%;
+
+    margin-top:11px;
+
+    padding:12px;
+
+    border:0;
+
+    border-radius:15px;
+
+    font-family:inherit;
+
+    font-size:12px;
+    font-weight:bold;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffb7cb,
+            #ef8eac
+        );
+
+    box-shadow:
+        0 7px 15px rgba(220,100,140,.2);
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.main-button:active{
+    transform:scale(.96);
+}
+
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.info{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+    margin-top:11px;
+}
+
+.info-item{
+    padding:10px 11px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.82);
+
+    border:1px solid #ffe0e7;
+
+    font-size:9px;
+
+    line-height:1.55;
+
+    color:#94747f;
+}
+
+.info-item b{
+    color:#dd7897;
+}
+
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-title{
+    display:flex;
+    align-items:center;
+
+    gap:7px;
+
+    margin:8px 0 12px;
+}
+
+.section-title::before,
+.section-title::after{
+    content:"";
+
+    height:1px;
+
+    flex:1;
+
+    border-top:1px dashed #f3b7c7;
+}
+
+.section-title span{
+    padding:6px 12px;
+
+    border-radius:50px;
+
+    background:#fff;
+
+    border:1px solid #ffd0dc;
+
+    color:#db7898;
+
+    font-size:10px;
+}
+
+
+/* =====================================================
+   BANK
+===================================================== */
+
+.bank-list{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.bank{
+    padding:12px;
+
+    border-radius:17px;
+
+    background:rgba(255,255,255,.9);
+
+    border:1px solid #ffd9e2;
+
+    box-shadow:0 5px 14px rgba(180,90,120,.07);
+
+    position:relative;
+}
+
+.bank::after{
+    content:"♡";
+
+    position:absolute;
+
+    top:7px;
+    right:11px;
+
+    font-size:17px;
+
+    color:#ffc6d4;
+}
+
+.bank-header{
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+}
+
+.bank-icon{
+    width:37px;
+    height:37px;
+
+    border-radius:11px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#fff0f4;
+
+    font-size:19px;
+}
+
+.bank-name{
+    font-size:11px;
+    font-weight:bold;
+
+    color:#795c68;
+}
+
+.bank-type{
+    margin-top:2px;
+
+    font-size:8px;
+
+    color:#aa8b95;
+}
+
+.number{
+    margin-top:9px;
+
+    padding:8px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    background:#fff5f8;
+
+    color:#765864;
+
+    font-size:12px;
+    font-weight:bold;
+
+    letter-spacing:1px;
+}
+
+.owner{
+    text-align:center;
+
+    margin-top:6px;
+
+    font-size:9px;
+
+    color:#9d7b86;
+}
+
+.copy{
+    width:100%;
+
+    margin-top:7px;
+
+    padding:7px;
+
+    border-radius:10px;
+
+    background:white;
+
+    border:1px solid #ffcbd8;
+
+    color:#db7898;
+
+    font-family:inherit;
+
+    font-size:9px;
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   NOTICE
+===================================================== */
+
+.notice{
+    margin-top:10px;
+
+    padding:10px;
+
+    border-radius:15px;
+
+    border:1px dashed #efc675;
+
+    background:#fff9e9;
+
+    text-align:center;
+
+    font-size:9px;
+
+    line-height:1.7;
+
+    color:#9b8055;
+}
+
+
+/* =====================================================
+   PRODUCT
+===================================================== */
+
+.products{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:9px;
+}
+
+.product{
+    padding:9px;
+
+    border-radius:16px;
+
+    background:white;
+
+    border:1px solid #ffdae3;
+
+    box-shadow:0 5px 13px rgba(190,100,120,.06);
+
+    text-align:center;
+}
+
+.product-image{
+    height:78px;
+
+    border-radius:12px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#fff0f4,#fff8eb);
+
+    font-size:31px;
+}
+
+.product-name{
+    margin-top:6px;
+
+    font-size:9px;
+    font-weight:bold;
+
+    color:#765c66;
+}
+
+.price{
+    margin-top:2px;
+
+    font-size:10px;
+
+    color:#df7697;
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.contact{
+    padding:17px;
+
+    border-radius:20px;
+
+    background:white;
+
+    border:1px solid #ffd8e1;
+
+    text-align:center;
+
+    box-shadow:0 6px 17px rgba(200,100,130,.07);
+}
+
+.contact-icon{
+    font-size:36px;
+}
+
+.contact h2{
+    margin:5px 0;
+
+    font-size:16px;
+
+    color:#d96f91;
+}
+
+.contact p{
+    margin:0;
+
+    font-size:9px;
+
+    line-height:1.7;
+
+    color:#9b7a84;
+}
+
+.contact-link{
+    display:block;
+
+    margin-top:8px;
+
+    padding:9px;
+
+    border-radius:11px;
+
+    text-decoration:none;
+
+    background:#fff1f5;
+
+    border:1px solid #ffd1dc;
+
+    color:#db7898;
+
+    font-size:10px;
+}
+
+
+/* =====================================================
+   BOTTOM NAV
+===================================================== */
+
+.bottom-nav{
+    position:absolute;
+
+    left:8px;
+    right:8px;
+    bottom:8px;
+
+    height:53px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.94);
+
+    border:1px solid #ffd8e2;
+
+    box-shadow:
+        0 8px 20px rgba(160,80,110,.13);
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    z-index:50;
+
+    backdrop-filter:blur(10px);
+}
+
+.nav{
+    border:0;
+
+    background:transparent;
+
+    font-family:inherit;
+
+    color:#b29aa2;
+
+    font-size:8px;
+
+    cursor:pointer;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:2px;
+}
+
+.nav-icon{
+    font-size:18px;
+}
+
+.nav.active{
+    color:#df7698;
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   IPHONE HOME BUTTON
+===================================================== */
+
+.home-button{
+    position:absolute;
+
+    left:50%;
+    bottom:-4px;
+
+    transform:translateX(-50%);
+
+    width:49px;
+    height:49px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #e2d3cf
+        );
+
+    border:1px solid #c2b1ad;
+
+    box-shadow:
+        inset 0 0 0 3px #eee5e2,
+        0 3px 6px rgba(60,45,45,.16);
+
+    z-index:150;
+}
+
+.home-button::after{
+    content:"";
+
+    position:absolute;
+
+    inset:10px;
+
+    border-radius:50%;
+
+    border:1px solid #d4c4c0;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    transform:translate(-50%,20px);
+
+    padding:9px 15px;
+
+    border-radius:50px;
+
+    background:rgba(95,70,78,.93);
+
+    color:white;
+
+    font-size:10px;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.3s;
+
+    z-index:999;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:translate(-50%,0);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:370px){
+
+    .iphone{
+        width:305px;
+        height:620px;
+    }
+
+}
+
+@media(max-height:720px){
+
+    .iphone{
+        transform:scale(.88);
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND DECORATION
+===================================================== -->
+
+<div class="background">
+
+    <div class="decor">♡</div>
+    <div class="decor">✦</div>
+    <div class="decor">☆</div>
+    <div class="decor">♡</div>
+    <div class="decor">✧</div>
+
+</div>
+
+
+<!-- =====================================================
+     PHONE
+===================================================== -->
+
+<div class="stage">
+
+    <div class="iphone">
+
+
+        <!-- SIDE BUTTONS -->
+
+        <div class="mute-button"></div>
+        <div class="volume-button"></div>
+        <div class="power-button"></div>
+
+
+        <div class="screen-frame">
+
+            <div class="screen">
+
+
+                <!-- FRONT HARDWARE -->
+
+                <div class="hardware">
+
+                    <div class="front-camera"></div>
+
+                    <div class="speaker"></div>
+
+                    <div class="sensor"></div>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="status">
+
+                    <span>9:41</span>
+
+                    <div class="status-right">
+                        <span>●●●</span>
+                        <span>Wi-Fi</span>
+                        <span>▰</span>
+                    </div>
+
+                </div>
+
+
+                <!-- APP -->
+
+                <div class="app">
+
+
+                    <!-- =========================================
+                         HOME
+                    ========================================== -->
+
+                    <section
+                        class="page active"
+                        id="home">
+
+                        <div class="shop-header">
+
+                            <div class="logo">
+
+                                🐱
+
+                                <span class="note">
+                                    ♪
+                                </span>
+
+                            </div>
+
+                            <div class="shop-name">
+                                Miori 🎀
+                            </div>
+
+                            <div class="shop-description">
+                                ร้านมิโอริยินดีต้อนรับค่า ♡<br>
+                                น่ารัก • เรียบง่าย • อบอุ่น
+                            </div>
+
+                        </div>
+
+
+                        <div class="hero">
+
+                            <div class="hero-icon">
+                                💗
+                            </div>
+
+                            <h2>
+                                ยินดีต้อนรับนะคะ
+                            </h2>
+
+                            <p>
+                                ขอบคุณที่แวะเข้ามาน้า<br>
+                                สามารถดูช่องทางการโอนได้ที่นี่เลยค่ะ
+                            </p>
+
+                        </div>
+
+
+                        <button
+                            class="main-button"
+                            onclick="goTo('transfer')">
+
+                            💸 ช่องทางการโอน
+
+                        </button>
+
+
+                        <div class="info">
+
+                            <div class="info-item">
+                                🎀 <b>ขั้นตอนที่ 1</b><br>
+                                เลือกช่องทางการโอนที่ต้องการ
+                            </div>
+
+                            <div class="info-item">
+                                💗 <b>ขั้นตอนที่ 2</b><br>
+                                ตรวจสอบชื่อบัญชีก่อนโอนทุกครั้ง
+                            </div>
+
+                            <div class="info-item">
+                                📩 <b>ขั้นตอนที่ 3</b><br>
+                                โอนแล้วส่งสลิปให้ทางร้านได้เลยค่ะ
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =========================================
+                         TRANSFER
+                    ========================================== -->
+
+                    <section
+                        class="page"
+                        id="transfer">
+
+                        <div class="shop-header">
+
+                            <div
+                                class="logo"
+                                style="width:65px;height:65px;font-size:30px;">
+
+                                💸
+
+                                <span class="note">
+                                    ♪
+                                </span>
+
+                            </div>
+
+                            <div
+                                class="shop-name"
+                                style="font-size:20px;">
+
+                                ช่องทางการโอน
+
+                            </div>
+
+                            <div class="shop-description">
+                                กรุณาตรวจสอบข้อมูลก่อนโอนทุกครั้งนะคะ ♡
+                            </div>
+
+                        </div>
+
+
+                        <div class="section-title">
+
+                            <span>
+                                ♡ บัญชีธนาคาร ♡
+                            </span>
+
+                        </div>
+
+
+                        <div class="bank-list">
+
+
+                            <!-- BANK 1 -->
+
+                            <div class="bank">
+
+                                <div class="bank-header">
+
+                                    <div class="bank-icon">
+                                        💜
+                                    </div>
+
+                                    <div>
+
+                                        <div class="bank-name">
+                                            ธนาคารไทยพาณิชย์
+                                        </div>
+
+                                        <div class="bank-type">
+                                            บัญชีออมทรัพย์
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="number">
+                                    123-4-56789-0
+                                </div>
+
+                                <div class="owner">
+                                    ชื่อบัญชี : นางสาว ตัวอย่าง
+                                </div>
+
+                                <button
+                                    class="copy"
+                                    onclick="copyText('1234567890')">
+
+                                    📋 คัดลอกเลขบัญชี
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- BANK 2 -->
+
+                            <div class="bank">
+
+                                <div class="bank-header">
+
+                                    <div class="bank-icon">
+                                        💚
+                                    </div>
+
+                                    <div>
+
+                                        <div class="bank-name">
+                                            ธนาคารกสิกรไทย
+                                        </div>
+
+                                        <div class="bank-type">
+                                            บัญชีออมทรัพย์
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="number">
+                                    098-7-65432-1
+                                </div>
+
+                                <div class="owner">
+                                    ชื่อบัญชี : นางสาว ตัวอย่าง
+                                </div>
+
+                                <button
+                                    class="copy"
+                                    onclick="copyText('0987654321')">
+
+                                    📋 คัดลอกเลขบัญชี
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- BANK 3 -->
+
+                            <div class="bank">
+
+                                <div class="bank-header">
+
+                                    <div class="bank-icon">
+                                        💙
+                                    </div>
+
+                                    <div>
+
+                                        <div class="bank-name">
+                                            ธนาคารกรุงเทพ
+                                        </div>
+
+                                        <div class="bank-type">
+                                            บัญชีออมทรัพย์
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="number">
+                                    111-2-33333-4
+                                </div>
+
+                                <div class="owner">
+                                    ชื่อบัญชี : นางสาว ตัวอย่าง
+                                </div>
+
+                                <button
+                                    class="copy"
+                                    onclick="copyText('1112333334')">
+
+                                    📋 คัดลอกเลขบัญชี
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- BANK 4 -->
+
+                            <div class="bank">
+
+                                <div class="bank-header">
+
+                                    <div class="bank-icon">
+                                        🧡
+                                    </div>
+
+                                    <div>
+
+                                        <div class="bank-name">
+                                            ธนาคารกรุงศรีอยุธยา
+                                        </div>
+
+                                        <div class="bank-type">
+                                            บัญชีออมทรัพย์
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="number">
+                                    222-3-44444-5
+                                </div>
+
+                                <div class="owner">
+                                    ชื่อบัญชี : นางสาว ตัวอย่าง
+                                </div>
+
+                                <button
+                                    class="copy"
+                                    onclick="copyText('2223344445')">
+
+                                    📋 คัดลอกเลขบัญชี
+
+                                </button>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="notice">
+
+                            💕 โอนแล้วอย่าลืมส่งสลิปให้ทางร้านนะคะ ♡
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =========================================
+                         PRODUCTS
+                    ========================================== -->
+
+                    <section
+                        class="page"
+                        id="products">
+
+                        <div class="shop-header">
+
+                            <div
+                                class="logo"
+                                style="width:65px;height:65px;font-size:29px;">
+
+                                🛍️
+
+                            </div>
+
+                            <div
+                                class="shop-name"
+                                style="font-size:20px;">
+
+                                สินค้า / บริการ
+
+                            </div>
+
+                            <div class="shop-description">
+                                เลือกงานที่สนใจได้เลยน้า ♡
+                            </div>
+
+                        </div>
+
+
+                        <div class="products">
+
+                            <div class="product">
+
+                                <div class="product-image">
+                                    🎨
+                                </div>
+
+                                <div class="product-name">
+                                    ออกแบบป้าย
+                                </div>
+
+                                <div class="price">
+                                    เริ่มต้น 59.-
+                                </div>
+
+                            </div>
+
+
+                            <div class="product">
+
+                                <div class="product-image">
+                                    💧
+                                </div>
+
+                                <div class="product-name">
+                                    ลายน้ำ
+                                </div>
+
+                                <div class="price">
+                                    เริ่มต้น 39.-
+                                </div>
+
+                            </div>
+
+
+                            <div class="product">
+
+                                <div class="product-image">
+                                    🌷
+                                </div>
+
+                                <div class="product-name">
+                                    งานออกแบบ
+                                </div>
+
+                                <div class="price">
+                                    สอบถามราคา
+                                </div>
+
+                            </div>
+
+
+                            <div class="product">
+
+                                <div class="product-image">
+                                    🎀
+                                </div>
+
+                                <div class="product-name">
+                                    เว็บไซต์
+                                </div>
+
+                                <div class="price">
+                                    สอบถามราคา
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notice">
+
+                            ✨ สนใจงานไหนสอบถามรายละเอียดเพิ่มเติมได้เลยค่ะ
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =========================================
+                         CONTACT
+                    ========================================== -->
+
+                    <section
+                        class="page"
+                        id="contact">
+
+                        <div class="shop-header">
+
+                            <div
+                                class="logo"
+                                style="width:65px;height:65px;font-size:29px;">
+
+                                💌
+
+                            </div>
+
+                            <div
+                                class="shop-name"
+                                style="font-size:20px;">
+
+                                ติดต่อเรา
+
+                            </div>
+
+                            <div class="shop-description">
+                                มีอะไรสอบถามได้เลยน้า ♡
+                            </div>
+
+                        </div>
+
+
+                        <div class="contact">
+
+                            <div class="contact-icon">
+                                💗
+                            </div>
+
+                            <h2>
+                                Miori Shop
+                            </h2>
+
+                            <p>
+                                สอบถามรายละเอียดงาน<br>
+                                หรือติดต่อทางร้านได้ที่ด้านล่างค่ะ
+                            </p>
+
+
+                            <a
+                                class="contact-link"
+                                href="https://line.me/"
+                                target="_blank">
+
+                                💚 LINE
+
+                            </a>
+
+
+                            <a
+                                class="contact-link"
+                                href="https://facebook.com/"
+                                target="_blank">
+
+                                💙 Facebook
+
+                            </a>
+
+
+                            <a
+                                class="contact-link"
+                                href="#"
+                                onclick="
+                                toast('ตรงนี้ใส่ช่องทางอื่นของร้านได้เลยค่ะ ♡');
+                                return false;
+                                ">
+
+                                💌 ช่องทางอื่น ๆ
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="notice">
+
+                            🎀 Miori Shop © 2026<br>
+                            ขอบคุณที่สนับสนุนร้านเล็ก ๆ ของเรานะคะ ♡
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =========================================
+                         BOTTOM NAV
+                    ========================================== -->
+
+                    <nav class="bottom-nav">
+
+                        <button
+                            class="nav active"
+                            data-page="home"
+                            onclick="goTo('home')">
+
+                            <span class="nav-icon">
+                                🏠
+                            </span>
+
+                            หน้าหลัก
+
+                        </button>
+
+
+                        <button
+                            class="nav"
+                            data-page="products"
+                            onclick="goTo('products')">
+
+                            <span class="nav-icon">
+                                🛍️
+                            </span>
+
+                            สินค้า
+
+                        </button>
+
+
+                        <button
+                            class="nav"
+                            data-page="contact"
+                            onclick="goTo('contact')">
+
+                            <span class="nav-icon">
+                                💌
+                            </span>
+
+                            ติดต่อเรา
+
+                        </button>
+
+                    </nav>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- IPHONE HOME BUTTON -->
+
+        <div class="home-button"></div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast">
+
+    คัดลอกแล้ว ♡
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CHANGE PAGE
+===================================================== */
+
+function goTo(page){
+
+    document.querySelectorAll(".page")
+        .forEach(function(item){
+
+            item.classList.remove("active");
+
+        });
+
+
+    const target =
+        document.getElementById(page);
+
+    if(target){
+
+        target.classList.add("active");
+
+        target.scrollTop = 0;
+
+    }
+
+
+    document.querySelectorAll(".nav")
+        .forEach(function(item){
+
+            item.classList.remove("active");
+
+            if(item.dataset.page === page){
+
+                item.classList.add("active");
+
+            }
+
+        });
+
+}
+
+
+/* =====================================================
+   COPY ACCOUNT
+===================================================== */
+
+function copyText(text){
+
+    if(navigator.clipboard){
+
+        navigator.clipboard.writeText(text)
+            .then(function(){
+
+                toast("คัดลอกเลขบัญชีแล้ว ♡");
+
+            })
+            .catch(function(){
+
+                fallbackCopy(text);
+
+            });
+
+    }else{
+
+        fallbackCopy(text);
+
+    }
+
+}
+
+
+/* =====================================================
+   FALLBACK COPY
+===================================================== */
+
+function fallbackCopy(text){
+
+    const input =
+        document.createElement("input");
+
+    input.value = text;
+
+    document.body.appendChild(input);
+
+    input.select();
+
+    try{
+
+        document.execCommand("copy");
+
+        toast("คัดลอกเลขบัญชีแล้ว ♡");
+
+    }catch(e){
+
+        toast("กรุณาคัดลอกเลขบัญชีด้วยตนเองนะคะ");
+
+    }
+
+    document.body.removeChild(input);
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+function toast(message){
+
+    const element =
+        document.getElementById("toast");
+
+    element.textContent = message;
+
+    element.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+        setTimeout(function(){
+
+            element.classList.remove("show");
+
+        },1800);
+
+}
+
+
+/* =====================================================
+   SWIPE
+===================================================== */
+
+let startX = 0;
+
+const app =
+    document.querySelector(".app");
+
+
+app.addEventListener(
+    "touchstart",
+    function(e){
+
+        startX =
+            e.changedTouches[0].screenX;
+
+    },
+    {passive:true}
+);
+
+
+app.addEventListener(
+    "touchend",
+    function(e){
+
+        const endX =
+            e.changedTouches[0].screenX;
+
+        const difference =
+            endX - startX;
+
+        if(Math.abs(difference) < 60){
+
+            return;
+
+        }
+
+
+        const pages =
+            ["home","products","contact"];
+
+
+        const active =
+            document.querySelector(".nav.active");
+
+
+        if(!active){
+
+            return;
+
+        }
+
+
+        let index =
+            pages.indexOf(active.dataset.page);
+
+
+        if(difference < 0){
+
+            index =
+                Math.min(index + 1, pages.length - 1);
+
+        }else{
+
+            index =
+                Math.max(index - 1, 0);
+
+        }
+
+
+        goTo(pages[index]);
+
+    },
+    {passive:true}
+);
+
+</script>
+
+</body>
+</html>
